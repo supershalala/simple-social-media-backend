@@ -128,3 +128,22 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+.DS_Store
+
+# Node.js files
+node_modules/
+package-lock.json
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Build files
+dist/
+
+# Environment variables
+.env
+.env.*
