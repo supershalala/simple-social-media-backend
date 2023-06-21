@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
-const { User } = require('./models');
+const { User } = require('../models');
 
 mongoose.connect('mongodb://localhost/socialMediaBackend', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false
+  useUnifiedTopology: true
 });
 
 const userData = [
