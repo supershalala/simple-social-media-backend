@@ -80,8 +80,8 @@ createThought({ body }, res) {
 // delete thought by id
 deleteThought({ params }, res) {
   Thought.findOneAndDelete({ _id: params.id })
-    .then(dbThoughtData => {
-      if (!dbThoughtData) {
+    .then(deletedThought => {
+      if (!deletedThought) {
         return res.status(404).json({ message: 'No thought found with this id!' });
       }
       // Remove thought id from associated user's thoughts array
@@ -91,17 +91,18 @@ deleteThought({ params }, res) {
         { new: true }
       );
     })
-    .then(dbUserData => {
-      if (!dbUserData) {
+    .then(updatedUser => {
+      if (!updatedUser) {
         return res.status(404).json({ message: 'No user found with this thought!' });
       }
-      res.json(dbThoughtData);
+      res.json({ message: 'Thought deleted successfully' });
     })
     .catch(err => {
       console.log(err);
       res.status(400).json(err);
     });
 },
+
 
   // create reaction for thought
   createReaction({ params, body }, res) {
