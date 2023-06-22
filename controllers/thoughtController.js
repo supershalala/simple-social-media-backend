@@ -77,33 +77,31 @@ createThought({ body }, res) {
       });
   },
 
-  // delete thought by id
-  deleteThought({ params }, res) {
-    Thought.findOneAndDelete({ _id: params.id })
-      .then(dbThoughtData => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: 'No thought found with this id!' });
-          return;
-        }
-        // Remove thought id from associated user's thoughts array
-        return User.findOneAndUpdate(
-          { thoughts: params.id },
-          { $pull: { thoughts: params.id } },
-          { new: true }
-        );
-      })
-      .then(dbUserData => {
-        if (!dbUserData) {
-          res.status(404).json({ message: 'No user found with this thought!' });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(400).json(err);
-      });
-  },
+// delete thought by id
+deleteThought({ params }, res) {
+  Thought.findOneAndDelete({ _id: params.id })
+    .then(dbThoughtData => {
+      if (!dbThoughtData) {
+        return res.status(404).json({ message: 'No thought found with this id!' });
+      }
+      // Remove thought id from associated user's thoughts array
+      return User.findOneAndUpdate(
+        { thoughts: params.id },
+        { $pull: { thoughts: params.id } },
+        { new: true }
+      );
+    })
+    .then(dbUserData => {
+      if (!dbUserData) {
+        return res.status(404).json({ message: 'No user found with this thought!' });
+      }
+      res.json(dbThoughtData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).json(err);
+    });
+},
 
   // create reaction for thought
   createReaction({ params, body }, res) {
